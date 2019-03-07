@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
 	repr.makeFrames();
 	repr.calculateDistances();
 	repr.calculateStarAngles();
+	repr.printStats();
 
 	return 0;
 }

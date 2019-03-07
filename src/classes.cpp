@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <algorithm>
 using namespace std;
 
 void Row::printRow() {
@@ -81,7 +82,18 @@ void Representation::calculateDistances() {
 				+ pow(curr.y_pos - center.y_pos, 2.0)
 				+ pow(curr.z_pos - center.z_pos, 2.0));
 			frames[i].rows[j].dist_to_center = dist;
-			repr_distances.push_back(dist);
+			switch(frames[i].rows[j].joint_id) {
+				case 4: repr_dist1.push_back(dist);
+				break;
+				case 8: repr_dist2.push_back(dist);
+				break;
+				case 12: repr_dist3.push_back(dist);
+				break;
+				case 16: repr_dist4.push_back(dist);
+				break;
+				case 20: repr_dist5.push_back(dist);
+				break;
+			}
 		}
 	}
 	printFrames(); // For debugging
@@ -134,44 +146,166 @@ void Representation::calculateStarAngles() {
 		r2.printRow();
 		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
 		frames[i].rows[1].angle_to_right = angle;
-		repr_angles.push_back(angle);
+		repr_angle1.push_back(angle);
 
 		// Left Hand to Left Foot
 		r1 = frames[i].rows[3];
 		r2 = frames[i].rows[5];
 		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
 		frames[i].rows[3].angle_to_right = angle;
-		repr_angles.push_back(angle);
+		repr_angle2.push_back(angle);
 
 		// Left Foot to Right Foot
 		r1 = frames[i].rows[5];
 		r2 = frames[i].rows[4];
 		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
 		frames[i].rows[5].angle_to_right = angle;
-		repr_angles.push_back(angle);
+		repr_angle3.push_back(angle);
 
 		// Right Foot to Right Hand
 		r1 = frames[i].rows[4];
 		r2 = frames[i].rows[2];
 		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
 		frames[i].rows[4].angle_to_right = angle;
-		repr_angles.push_back(angle);
+		repr_angle4.push_back(angle);
 
 		// Right Hand to Head
 		r1 = frames[i].rows[2];
 		r2 = frames[i].rows[1];
 		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
 		frames[i].rows[2].angle_to_right = angle;
-		repr_angles.push_back(angle);
+		repr_angle5.push_back(angle);
 	}
 	printFrames(); // For debugging
 }
 
-void Representation::printAnglesDistances() {
-	for (int i = 0; i < repr_distances.size(); i++) {
-		cout << "Distance: " << repr_distances[i] << endl;
+bool mySortFunction (double i, double j) { return (i<j); }
+
+void Representation::printStats() {
+	sort(repr_angle1.begin(), repr_angle1.end(), mySortFunction);
+	sort(repr_angle2.begin(), repr_angle2.end(), mySortFunction);
+	sort(repr_angle3.begin(), repr_angle3.end(), mySortFunction);
+	sort(repr_angle4.begin(), repr_angle4.end(), mySortFunction);
+	sort(repr_angle5.begin(), repr_angle5.end(), mySortFunction);
+
+	sort(repr_dist1.begin(), repr_dist1.end(), mySortFunction);
+	sort(repr_dist2.begin(), repr_dist2.end(), mySortFunction);
+	sort(repr_dist3.begin(), repr_dist3.end(), mySortFunction);
+	sort(repr_dist4.begin(), repr_dist4.end(), mySortFunction);
+	sort(repr_dist5.begin(), repr_dist5.end(), mySortFunction);
+
+	// Angles
+	double sum = 0;
+	for (int i = 0; i < repr_angle1.size(); i++) {
+		sum += repr_angle1[i];
 	}
-	for (int i = 0; i < repr_angles.size(); i++) {
-		cout << "Angle: " << repr_angles[i] << endl;
+	double min, max, range;
+	min = repr_angle1[0];
+	max = repr_angle1[repr_angle1.size()-1];
+	range = (max-min)/5;
+
+	cout << "Angle Vec 1:\tMin: " << min << "\tAvg: " << sum/repr_angle1.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_angle2.size(); i++) {
+		sum += repr_angle2[i];
 	}
+	min = repr_angle2[0];
+	max = repr_angle2[repr_angle2.size()-1];
+	range = (max-min)/5;
+
+	cout << "Angle Vec 2:\tMin: " << min << "\tAvg: " << sum/repr_angle2.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_angle3.size(); i++) {
+		sum += repr_angle3[i];
+	}
+	min = repr_angle3[0];
+	max = repr_angle3[repr_angle3.size()-1];
+	range = (max-min)/5;
+
+	cout << "Angle Vec 3:\tMin: " << min << "\tAvg: " << sum/repr_angle3.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_angle4.size(); i++) {
+		sum += repr_angle4[i];
+	}
+	min = repr_angle4[0];
+	max = repr_angle4[repr_angle4.size()-1];
+	range = (max-min)/5;
+
+	cout << "Angle Vec 4:\tMin: " << min << "\tAvg: " << sum/repr_angle4.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_angle5.size(); i++) {
+		sum += repr_angle5[i];
+	}
+	min = repr_angle5[0];
+	max = repr_angle5[repr_angle5.size()-1];
+	range = (max-min)/5;
+
+	cout << "Angle Vec 5:\tMin: " << min << "\tAvg: " << sum/repr_angle5.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+	
+	cout << endl;
+
+	// Distances
+	sum = 0;
+	for (int i = 0; i < repr_dist1.size(); i++) {
+		sum += repr_dist1[i];
+	}
+	min = repr_dist1[0];
+	max = repr_dist1[repr_dist1.size()-1];
+	range = (max-min)/5;
+
+	cout << "Dist Vec 1:\tMin: " << min << "\tAvg: " << sum/repr_dist1.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_dist2.size(); i++) {
+		sum += repr_dist2[i];
+	}
+	min = repr_dist2[0];
+	max = repr_dist2[repr_dist2.size()-1];
+	range = (max-min)/5;
+
+	cout << "Dist Vec 2:\tMin: " << min << "\tAvg: " << sum/repr_dist2.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_dist3.size(); i++) {
+		sum += repr_dist3[i];
+	}
+	min = repr_dist3[0];
+	max = repr_dist3[repr_dist3.size()-1];
+	range = (max-min)/5;
+
+	cout << "Dist Vec 3:\tMin: " << min << "\tAvg: " << sum/repr_dist3.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_dist4.size(); i++) {
+		sum += repr_dist4[i];
+	}
+	min = repr_dist4[0];
+	max = repr_dist4[repr_dist4.size()-1];
+	range = (max-min)/5;
+
+	cout << "Dist Vec 4:\tMin: " << min << "\tAvg: " << sum/repr_dist4.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
+
+	sum = 0;
+	for (int i = 0; i < repr_dist5.size(); i++) {
+		sum += repr_dist5[i];
+	}
+	min = repr_dist5[0];
+	max = repr_dist5[repr_dist5.size()-1];
+	range = (max-min)/5;
+
+	cout << "Dist Vec 5:\tMin: " << min << "\tAvg: " << sum/repr_dist5.size() 
+	<< "\tMax: " << max << "\tRange/5: " << range << endl;
 }
