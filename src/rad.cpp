@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "functions.h"
+#include "classes.h"
 using namespace std;
 int main(int argc, char *argv[]) {
 	
@@ -18,6 +19,9 @@ int main(int argc, char *argv[]) {
 		cerr << "File " << fileName << " not found." << endl;
 		return -1;
 	}
+
+	Representation repr(fileIn, true);
+	repr.makeFrames();
 
 	return 0;
 }

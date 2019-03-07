@@ -1,8 +1,8 @@
 #include "functions.h"
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <vector>
+#include <string>
 using namespace std;
 
 //Don't Change!
