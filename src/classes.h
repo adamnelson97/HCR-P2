@@ -32,8 +32,11 @@ public:
 	Representation(ifstream& input, bool star);
 	vector<Row> rows;
 	vector<Frame> frames;
+	vector<double> repr_distances;
+	vector<double> repr_angles;
 	void makeFrames();
 	void printFrames();
 	void calculateDistances();
 	void calculateStarAngles();
+	void printAnglesDistances();
 };

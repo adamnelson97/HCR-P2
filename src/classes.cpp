@@ -81,6 +81,7 @@ void Representation::calculateDistances() {
 				+ pow(curr.y_pos - center.y_pos, 2.0)
 				+ pow(curr.z_pos - center.z_pos, 2.0));
 			frames[i].rows[j].dist_to_center = dist;
+			repr_distances.push_back(dist);
 		}
 	}
 	printFrames(); // For debugging
@@ -122,6 +123,7 @@ void Representation::calculateStarAngles() {
 	*/
 
 	Row r1, r2;
+	double angle;
 	// For every frame
 	for (int i = 0; i < frames.size(); i++) {
 
@@ -130,28 +132,46 @@ void Representation::calculateStarAngles() {
 		r2 = frames[i].rows[3];
 		r1.printRow();
 		r2.printRow();
-		frames[i].rows[1].angle_to_right = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		frames[i].rows[1].angle_to_right = angle;
+		repr_angles.push_back(angle);
 
 		// Left Hand to Left Foot
 		r1 = frames[i].rows[3];
 		r2 = frames[i].rows[5];
-		frames[i].rows[3].angle_to_right = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		frames[i].rows[3].angle_to_right = angle;
+		repr_angles.push_back(angle);
 
 		// Left Foot to Right Foot
 		r1 = frames[i].rows[5];
 		r2 = frames[i].rows[4];
-		frames[i].rows[5].angle_to_right = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		frames[i].rows[5].angle_to_right = angle;
+		repr_angles.push_back(angle);
 
 		// Right Foot to Right Hand
 		r1 = frames[i].rows[4];
 		r2 = frames[i].rows[2];
-		frames[i].rows[4].angle_to_right = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		frames[i].rows[4].angle_to_right = angle;
+		repr_angles.push_back(angle);
 
 		// Right Hand to Head
 		r1 = frames[i].rows[2];
 		r2 = frames[i].rows[1];
-		frames[i].rows[2].angle_to_right = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
-
+		angle = calcAngle(r1.x_pos, r1.y_pos, r1.z_pos, r2.x_pos, r2.y_pos, r2.z_pos);
+		frames[i].rows[2].angle_to_right = angle;
+		repr_angles.push_back(angle);
 	}
 	printFrames(); // For debugging
+}
+
+void Representation::printAnglesDistances() {
+	for (int i = 0; i < repr_distances.size(); i++) {
+		cout << "Distance: " << repr_distances[i] << endl;
+	}
+	for (int i = 0; i < repr_angles.size(); i++) {
+		cout << "Angle: " << repr_angles[i] << endl;
+	}
 }
