@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
 
 	Representation repr(fileIn, true);
 	repr.makeFrames();
+	repr.calculateDistances();
+	repr.calculateStarAngles();
 
 	return 0;
 }

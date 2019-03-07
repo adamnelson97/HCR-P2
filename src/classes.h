@@ -14,7 +14,6 @@ public:
 	double y_pos;
 	double z_pos;
 	double dist_to_center;
-	double angle_to_left;
 	double angle_to_right;
 
 	// Methods
@@ -34,5 +33,7 @@ public:
 	vector<Row> rows;
 	vector<Frame> frames;
 	void makeFrames();
+	void printFrames();
 	void calculateDistances();
+	void calculateStarAngles();
 };
