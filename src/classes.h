@@ -26,6 +26,22 @@ public:
 	vector<Row> rows;
 };
 
+class Histogram {
+public:
+	Histogram();
+	int first_pct;
+	int second_pct;
+	int third_pct;
+	int fourth_pct;
+	int fifth_pct;
+	double bin1;
+	double bin2;
+	double bin3;
+	double bin4;
+	double bin5;
+	int total;
+};
+
 class Representation {
 public:
 	Representation();
@@ -42,9 +58,11 @@ public:
 	vector<double> repr_angle3;
 	vector<double> repr_angle4;
 	vector<double> repr_angle5;
+	vector<Histogram> hists;
 	void makeFrames();
 	void printFrames();
 	void calculateDistances();
 	void calculateStarAngles();
 	void printStats();
+	void makeHist();
 };

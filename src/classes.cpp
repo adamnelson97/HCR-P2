@@ -309,3 +309,82 @@ void Representation::printStats() {
 	cout << "Dist Vec 5:\tMin: " << min << "\tAvg: " << sum/repr_dist5.size() 
 	<< "\tMax: " << max << "\tRange/5: " << range << endl;
 }
+
+Histogram::Histogram() {
+	this->first_pct = 0;
+	this->second_pct = 0;
+	this->third_pct = 0;
+	this->fourth_pct = 0;
+	this->fifth_pct = 0;
+	this->bin1 = 0;
+	this->bin2 = 0;
+	this->bin3 = 0;
+	this->bin4 = 0;
+	this->bin5 = 0;
+	this->total = 0;
+}
+
+Histogram histMaker(vector<double> vec) {
+	double max = vec[vec.size()-1];
+	Histogram hist;
+	for (int i = 0; i < vec.size(); i++) {
+		if (0 < vec[i] && vec[i] < max*0.2) hist.first_pct++;
+		else if (max*0.2 < vec[i] && vec[i] < max*0.4) hist.second_pct++;
+		else if (max*0.4 < vec[i] && vec[i] < max*0.6) hist.third_pct++;
+		else if (max*0.6 < vec[i] && vec[i] < max*0.8) hist.fourth_pct++;
+		else if (max*0.8 < vec[i] && vec[i] < max) hist.fifth_pct++;
+	}
+	hist.total = vec.size();
+	hist.bin1 = (double) hist.first_pct/hist.total;
+	hist.bin2 = (double) hist.second_pct/hist.total;
+	hist.bin3 = (double) hist.third_pct/hist.total;
+	hist.bin4 = (double) hist.fourth_pct/hist.total;
+	hist.bin5 = (double) hist.fifth_pct/hist.total;
+	return hist;
+}
+
+void Representation::makeHist() {
+	// Sort all of the vectors
+	sort(repr_angle1.begin(), repr_angle1.end(), mySortFunction);
+	sort(repr_angle2.begin(), repr_angle2.end(), mySortFunction);
+	sort(repr_angle3.begin(), repr_angle3.end(), mySortFunction);
+	sort(repr_angle4.begin(), repr_angle4.end(), mySortFunction);
+	sort(repr_angle5.begin(), repr_angle5.end(), mySortFunction);
+
+	sort(repr_dist1.begin(), repr_dist1.end(), mySortFunction);
+	sort(repr_dist2.begin(), repr_dist2.end(), mySortFunction);
+	sort(repr_dist3.begin(), repr_dist3.end(), mySortFunction);
+	sort(repr_dist4.begin(), repr_dist4.end(), mySortFunction);
+	sort(repr_dist5.begin(), repr_dist5.end(), mySortFunction);
+
+	Histogram temp;
+	temp = histMaker(repr_angle1);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_angle2);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_angle3);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_angle4);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_angle5);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist1);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist2);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist3);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist4);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist5);
+	hists.push_back(temp);
+}
