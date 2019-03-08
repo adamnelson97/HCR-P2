@@ -46,6 +46,40 @@ Representation::Representation(ifstream& input, bool star) {
 		this->rows.pop_back(); // Removes duplicate row
 		cout << "All frames read into Representation." << endl;
 	}
+	else {
+		/*
+		Joint 1: Pelvis/Center
+		Joint 4: Head
+		Joint 6: Right Elbow
+		Joint 8: Right Hand
+		Joint 10: Left Elbow
+		Joint 12: Left Hand
+		Joint 14: Right Knee
+		Joint 16: Right Foot
+		Joint 18: Left Knee
+		Joint 20: Left Foot
+		*/
+		while (!input.eof()) {
+			Row row; // Creates Row object
+			input >> row.frame_id;
+			input >> row.joint_id;
+			input >> row.x_pos;
+			input >> row.y_pos;
+			input >> row.z_pos;
+			row.dist_to_center = 0;
+			row.angle_to_right = 0;
+
+			if (row.joint_id == 1 || row.joint_id == 4 || row.joint_id == 6 
+				||row.joint_id == 8 || row.joint_id == 10 || row.joint_id == 12 ||
+				row.joint_id == 14 || row.joint_id == 16 || row.joint_id == 18 || 
+				row.joint_id == 20) {
+				this->rows.push_back(row); // Add to the rep's row vector
+				row.printRow(); // Prints the row to confirm it was read properly
+			}
+		}
+		this->rows.pop_back(); // Removes duplicate row
+		cout << "All frames read into Representation." << endl;
+	}
 }
 
 
@@ -386,5 +420,83 @@ void Representation::makeHist() {
 	hists.push_back(temp);
 
 	temp = histMaker(repr_dist5);
+	hists.push_back(temp);
+}
+
+void Representation::calculateDistancesCust() {
+	// For every frame
+	for (int i = 0; i < frames.size(); i++) {
+		Row center = frames[i].rows[0];
+		// For every row
+		for (int j = 0; j < frames[i].rows.size(); j++) {
+			Row curr = frames[i].rows[j];
+			double dist = sqrt( pow(curr.x_pos - center.x_pos, 2.0)
+				+ pow(curr.y_pos - center.y_pos, 2.0)
+				+ pow(curr.z_pos - center.z_pos, 2.0));
+			frames[i].rows[j].dist_to_center = dist;
+			switch(frames[i].rows[j].joint_id) {
+				case 4: repr_dist1.push_back(dist);
+				break;
+				case 8: repr_dist2.push_back(dist);
+				break;
+				case 12: repr_dist3.push_back(dist);
+				break;
+				case 16: repr_dist4.push_back(dist);
+				break;
+				case 20: repr_dist5.push_back(dist);
+				break;
+				case 6: repr_dist6.push_back(dist);
+				break;
+				case 10: repr_dist7.push_back(dist);
+				break;
+				case 14: repr_dist8.push_back(dist);
+				break;
+				case 18: repr_dist9.push_back(dist);
+				break;
+			}
+		}
+	}
+	printFrames(); // For debugging
+}
+
+void Representation::makeHistCust() {
+	// Sort all of the vectors
+	sort(repr_dist1.begin(), repr_dist1.end(), mySortFunction);
+	sort(repr_dist2.begin(), repr_dist2.end(), mySortFunction);
+	sort(repr_dist3.begin(), repr_dist3.end(), mySortFunction);
+	sort(repr_dist4.begin(), repr_dist4.end(), mySortFunction);
+	sort(repr_dist5.begin(), repr_dist5.end(), mySortFunction);
+	sort(repr_dist6.begin(), repr_dist6.end(), mySortFunction);
+	sort(repr_dist7.begin(), repr_dist7.end(), mySortFunction);
+	sort(repr_dist8.begin(), repr_dist8.end(), mySortFunction);
+	sort(repr_dist9.begin(), repr_dist9.end(), mySortFunction);
+
+
+	Histogram temp;
+	temp = histMaker(repr_dist1);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist2);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist3);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist4);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist5);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist6);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist7);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist8);
+	hists.push_back(temp);
+
+	temp = histMaker(repr_dist9);
 	hists.push_back(temp);
 }

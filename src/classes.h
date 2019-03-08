@@ -53,6 +53,10 @@ public:
 	vector<double> repr_dist3;
 	vector<double> repr_dist4;
 	vector<double> repr_dist5;
+	vector<double> repr_dist6;
+	vector<double> repr_dist7;
+	vector<double> repr_dist8;
+	vector<double> repr_dist9;
 	vector<double> repr_angle1;
 	vector<double> repr_angle2;
 	vector<double> repr_angle3;
@@ -65,4 +69,6 @@ public:
 	void calculateStarAngles();
 	void printStats();
 	void makeHist();
+	void calculateDistancesCust();
+	void makeHistCust();
 };

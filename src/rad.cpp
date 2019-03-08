@@ -21,16 +21,31 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-	Representation repr(fileIn, true);
+	bool star = true;
+	if (argc == 4) star = false;
+	Representation repr(fileIn, star);
 	repr.makeFrames();
-	repr.calculateDistances();
-	repr.calculateStarAngles();
-	repr.printStats();
-	repr.makeHist();
+	if (star) {
+		repr.calculateDistances();
+		repr.calculateStarAngles();
+		repr.printStats();
+		repr.makeHist();
+	}
+	else {
+		repr.calculateDistancesCust();
+		repr.makeHistCust();
+	}
+	
 
 	string outFile;
-	if (strcmp(argv[2], "train") == 0) outFile = "rad_d1";
-	if (strcmp(argv[2], "test") == 0) outFile = "rad_d1.t";
+	if (star) {
+		if (strcmp(argv[2], "train") == 0) outFile = "rad_d1";
+		if (strcmp(argv[2], "test") == 0) outFile = "rad_d1.t";
+	}
+	else {
+		if (strcmp(argv[2], "train") == 0) outFile = "cust_d1";
+		if (strcmp(argv[2], "test") == 0) outFile = "cust_d1.t";
+	}
 
 	ofstream fileOut;
 	fileOut.open(outFile, ios::app);
