@@ -5,8 +5,10 @@ To run the representation:
 1) make
 2) bash train.sh
 3) bash test.sh
+4) bash train-custom.sh
+5) bash test-custom.sh
 
-This should generate rad_d1 and rad_d1.t
+This should generate rad_d1, rad_d1.t, cust_d1, and cust_d1.t
 
 
 Implementation Information:
@@ -24,3 +26,9 @@ appropriate file.
 I decided to use 5 bins for each histogram. Each group increases by 20
 percentiles, which gives a good but not overly specific picture of the
 data.
+
+
+Custom Implementation:
+
+For my custom implementation I decided to not calculate angles and instead
+I added in the elbow and knee joints to the data set.
