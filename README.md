@@ -1,6 +1,10 @@
 # HCR-P2
 Mines CSCI 473 Project 2
 
+=== Part 0 ===
+Before running any commands in Parts 1 or 2, go into /part1/ and delete
+rad_d1, rad_d1.t, cust_d1, and cust_d1.t if they exist.
+
 === Part 1 ===
 To run the representation:
 1) cd part1
