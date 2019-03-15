@@ -1,12 +1,14 @@
 # HCR-P2
 Mines CSCI 473 Project 2
 
+=== Part 1 ===
 To run the representation:
-1) make
-2) bash train.sh
-3) bash test.sh
-4) bash train-custom.sh
-5) bash test-custom.sh
+1) cd part1
+2) make
+3) bash train.sh
+4) bash test.sh
+5) bash train-custom.sh
+6) bash test-custom.sh
 
 This should generate rad_d1, rad_d1.t, cust_d1, and cust_d1.t
 
@@ -32,3 +34,22 @@ Custom Implementation:
 
 For my custom implementation I decided to not calculate angles and instead
 I added in the elbow and knee joints to the data set.
+
+
+=== Part 2 ===
+To apply the C-SVM model:
+1) Copy rad_d1, rad_d1.t, cust_d1, and cust_d1.t from the part1 folder and
+	past inside the part2/tools directory (the same directory containing easy.py)
+2) cd part2/tools
+3) ./conv rad_d1		// Creates rad_d2
+4) ./conv rad_d1.t      // Creates rad_d2.t
+5) ./conv cust_d1       // Creates cust_d2
+6) ./conv cust_d1.t     // Creates cust_d2.t
+7) python easy.py rad_d2 rad_d2.t      // Generates rad_d2.t.predict
+8) python easy.py cust_d2 cust_d2.t    // Generates cust_d2.t.predict
+
+Best C and G values for RAD Representation:
+	C:     G:
+
+Best C and G values for Custom Representation:
+	C:     G:
