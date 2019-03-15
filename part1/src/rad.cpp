@@ -21,6 +21,10 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
+	string class_num = "";
+	class_num += fileName[15];
+	class_num += fileName[16];
+
 	bool star = true;
 	if (argc == 4) star = false;
 	Representation repr(fileIn, star);
@@ -47,8 +51,13 @@ int main(int argc, char *argv[]) {
 		if (strcmp(argv[2], "test") == 0) outFile = "cust_d1.t";
 	}
 
+	// string class_num = "";
+	// class_num += fileName[1];
+	// class_num += fileName[2];
+
 	ofstream fileOut;
 	fileOut.open(outFile, ios::app);
+	fileOut << class_num << " ";
 	for (int i = 0; i < repr.hists.size(); i++) {
 		fileOut << repr.hists[i].bin1 << " " 
 		<< repr.hists[i].bin2 << " " 
