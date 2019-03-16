@@ -22,7 +22,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	string class_num = "";
-	class_num += fileName[15];
+	char temp = fileName[15];
+	if (temp != '0') class_num += fileName[15];
 	class_num += fileName[16];
 
 	bool star = true;
