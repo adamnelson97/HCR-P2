@@ -45,15 +45,16 @@ To apply the C-SVM model:
 1) Copy rad_d1, rad_d1.t, cust_d1, and cust_d1.t from the part1 folder and
 	past inside the part2/tools directory (the same directory containing easy.py)
 2) cd part2/tools
-3) ./conv rad_d1		// Creates rad_d2
-4) ./conv rad_d1.t      // Creates rad_d2.t
-5) ./conv cust_d1       // Creates cust_d2
-6) ./conv cust_d1.t     // Creates cust_d2.t
-7) python easy.py rad_d2 rad_d2.t      // Generates rad_d2.t.predict
-8) python easy.py cust_d2 cust_d2.t    // Generates cust_d2.t.predict
+3) make
+4) ./conv rad_d1		// Creates rad_d2
+5) ./conv rad_d1.t      // Creates rad_d2.t
+6) ./conv cust_d1       // Creates cust_d2
+7) ./conv cust_d1.t     // Creates cust_d2.t
+8) python easy.py rad_d2 rad_d2.t      // Generates rad_d2.t.predict
+9) python easy.py cust_d2 cust_d2.t    // Generates cust_d2.t.predict
 
 Best C and G values for RAD Representation:
-	C:     G:
+	C: 2    G: 0.03125
 
 Best C and G values for Custom Representation:
-	C:     G:
+	C: 2    G: 0.03125
